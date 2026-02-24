@@ -4,4 +4,5 @@
   <Project Path="infrastructure/LegoStore.Infrastructure.csproj" />
   <Project Path="services/LegoStore.Services.csproj" />
   <Project Path="tests/LegoStore.Tests.csproj" />
+  <Project Path="tools/LegoStore.Seed/LegoStore.Seed.csproj" />
 </Solution>
