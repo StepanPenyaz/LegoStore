@@ -1,14 +1,7 @@
 <Solution>
-  <Folder Name="/domain/">
-    <Project Path="domain/LegoStore.Domain.csproj" />
-  </Folder>
-  <Folder Name="/services/">
-    <Project Path="services/LegoStore.Services.csproj" />
-  </Folder>
-  <Folder Name="/infrastructure/">
-    <Project Path="infrastructure/LegoStore.Infrastructure.csproj" />
-  </Folder>
-  <Folder Name="/tests/">
-    <Project Path="tests/LegoStore.Tests.csproj" />
-  </Folder>
+  <Project Path="Api/LegoStore.Api.csproj" />
+  <Project Path="domain/LegoStore.Domain.csproj" />
+  <Project Path="infrastructure/LegoStore.Infrastructure.csproj" />
+  <Project Path="services/LegoStore.Services.csproj" />
+  <Project Path="tests/LegoStore.Tests.csproj" />
 </Solution>
