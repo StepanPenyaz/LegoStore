@@ -25,6 +25,17 @@
 
 ---
 
+## [2026-02-24] Make a GitHub Pages for this project
+
+**Prompt:**
+> Make a github-pages for this project
+
+**Context:** `.github/workflows/deploy-pages.yml`
+
+**Outcome:** Added `actions/configure-pages@v4` step to the existing `deploy-pages.yml` workflow, following the standard GitHub Pages deployment pattern. The workflow now properly configures the Pages environment before uploading and deploying the `legostore/frontend` static site.
+
+---
+
 ## [2026-02-24] Create Visual Studio solution file
 
 **Prompt:**
