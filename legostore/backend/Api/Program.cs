@@ -1,3 +1,4 @@
+using LegoStore.Domain;
 using LegoStore.Infrastructure;
 using LegoStore.Infrastructure.Repositories;
 using LegoStore.Services;
@@ -19,6 +20,9 @@ builder.Services.AddDbContext<StorageDbContext>(options =>
 // Domain services
 builder.Services.AddScoped<IStorageRepository, StorageRepository>();
 builder.Services.AddScoped<IBsxParserService, BsxParserService>();
+// StorageService requires a runtime StoreStorage instance; register as a factory
+builder.Services.AddTransient<Func<StoreStorage, IStorageService>>(
+    _ => storage => new StorageService(storage));
 
 // CORS – allow the React dev server
 builder.Services.AddCors(options =>

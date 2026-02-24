@@ -11,16 +11,19 @@ public class StorageController : ControllerBase
 {
     private readonly IStorageRepository _repository;
     private readonly IBsxParserService _bsxParser;
+    private readonly Func<StoreStorage, IStorageService> _storageServiceFactory;
     private readonly IConfiguration _configuration;
 
     public StorageController(
         IStorageRepository repository,
         IBsxParserService bsxParser,
+        Func<StoreStorage, IStorageService> storageServiceFactory,
         IConfiguration configuration)
     {
-        _repository    = repository;
-        _bsxParser     = bsxParser;
-        _configuration = configuration;
+        _repository            = repository;
+        _bsxParser             = bsxParser;
+        _storageServiceFactory = storageServiceFactory;
+        _configuration         = configuration;
     }
 
     /// <summary>Returns the full storage state.</summary>
@@ -41,8 +44,10 @@ public class StorageController : ControllerBase
     [HttpPost("update-state")]
     public async Task<IActionResult> UpdateState(CancellationToken ct)
     {
-        var folderPath = _configuration["Storage:IncomingOrdersPath"]
-            ?? @"C:\Lego\Bricklink\Incoming orders";
+        var folderPath = _configuration["Storage:IncomingOrdersPath"];
+
+        if (string.IsNullOrWhiteSpace(folderPath))
+            return BadRequest("Storage:IncomingOrdersPath is not configured. Set it in appsettings.json or via the Storage__IncomingOrdersPath environment variable.");
 
         if (!Directory.Exists(folderPath))
             return BadRequest($"Incoming orders folder not found: {folderPath}");
@@ -70,7 +75,7 @@ public class StorageController : ControllerBase
             }
         }
 
-        var service = new StorageService(storage);
+        var service = _storageServiceFactory(storage);
         service.ApplyPickedLots(allLots);
 
         await _repository.SaveAsync(storage, ct);
