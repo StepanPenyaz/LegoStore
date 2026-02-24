@@ -11,6 +11,20 @@
 
 ---
 
+## [2026-02-24] BSX File Processor Service
+
+**Prompt:**
+> ## BSX File Processor Service (C#)
+> Create a C# service responsible for processing BrickStore .bsx files.
+> Parse Remarks field for container info (#NNNN or #NNNN#M format).
+> Add SubtractLotFromContainerAsync to repository.
+
+**Context:** `legostore/backend/services/`, `legostore/backend/domain/`, `legostore/backend/infrastructure/`, `legostore/backend/tests/`
+
+**Outcome:** Added `ContainerInfo` record to `LegoStore.Domain`. Updated `PickedLot` to include optional `ContainerInfo?`. Created `ContainerInfoParser` static class that parses `#NNNN` and `#NNNN#M` remarks format. Updated `BsxParserService` to extract `Remarks` XML element and populate `ContainerInfo`, and improved XML error handling. Extended `IStorageRepository` with `SubtractLotFromContainerAsync` and implemented it in `StorageRepository` with full validation (container exists, lot exists, quantity non-negative, clears section on zero). Added `BsxParserServiceTests` (7 tests) and `ContainerInfoParserTests` (8 tests), plus 5 new repository tests; total test count: 61.
+
+---
+
 ## [2026-02-24] Create Visual Studio solution file
 
 **Prompt:**
