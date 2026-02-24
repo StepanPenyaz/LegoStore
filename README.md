@@ -67,7 +67,7 @@ An automated system that:
 
 ---
 
-# Storage UI
+## Storage UI
 
 A simple UI representation should be added as part of this project. 
 The main goal is to track empty containers/sections in the store to enable prediction of how many additional lots can be added to the cabinets.
@@ -88,7 +88,7 @@ The main goal is to track empty containers/sections in the store to enable predi
 ### Case group representation
 
 - Case group should be shown as a flexible grid
-- Maximum grid dimensions depend on neseted container types:
+- Maximum grid dimensions depend on nested container types:
   - PX12 : 12 columns x 9 rows
   - PX6 : 6 x 9
   - PX4 : 6 x 6

@@ -162,12 +162,11 @@
 <script>
   // ── Container-type config ────────────────────────────────────
   // gridCols: max columns in a case group of this type
-  // sections: number of sections in one container of this type
   const TYPE_CONFIG = {
-    PX12: { gridCols: 12, sections: 12 },
-    PX6:  { gridCols:  6, sections:  6 },
-    PX4:  { gridCols:  6, sections:  4 },
-    PX2:  { gridCols:  6, sections:  2 },
+    PX12: { gridCols: 12 },
+    PX6:  { gridCols:  6 },
+    PX4:  { gridCols:  6 },
+    PX2:  { gridCols:  6 },
   };
 
   // ── Helper: build a container array ─────────────────────────
@@ -251,8 +250,11 @@
   // ── Colour class for a container ────────────────────────────
   function colorClass(container) {
     const { emptySections, totalSections } = container;
+    // Fully empty container
     if (emptySections === totalSections) return "fully-empty";
-    if (emptySections > 0) return "partially-empty";
+    // Partially empty: only flagged for PX12 with 1–2 free sections
+    if (totalSections === 12 && emptySections >= 1 && emptySections <= 2) return "partially-empty";
+    // All other states: no special colour class
     return "";
   }
 
@@ -315,9 +317,11 @@
       container.insertAdjacentHTML("beforeend", renderCabinet(cab));
     });
 
-    // Show first panel
-    const first = document.getElementById("panel-" + storeData.cabinets[0].id);
-    if (first) first.classList.add("active");
+    // Show first panel (only if at least one cabinet exists)
+    if (storeData.cabinets.length > 0) {
+      const first = document.getElementById("panel-" + storeData.cabinets[0].id);
+      if (first) first.classList.add("active");
+    }
   })();
 </script>
 </body>
