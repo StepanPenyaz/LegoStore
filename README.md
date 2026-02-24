@@ -2,6 +2,18 @@
 Tool set for a better BrickLink store experience.
 # 🧱 BrickLink Storage Automation
 
+## 📑 Table of Contents
+
+- [BrickLink Storage Automation](#bricklink-storage-automation)
+  - [Problem Statement](#problem-statement)
+  - [Desired Outcome](#desired-outcome)
+  - [Storage UI](#storage-ui)
+    - [Container representation](#container-representation)
+    - [Case group representation](#case-group-representation)
+    - [Cabinet representation](#cabinet-representation)
+ 
+---
+
 ## Problem Statement
 
 Managing physical LEGO inventory for a BrickLink store requires precise tracking of where parts are stored and how quantities change after each order is picked.
@@ -54,3 +66,35 @@ An automated system that:
 * Provides a visual web interface of storage
 
 ---
+
+# Storage UI
+
+A simple UI representation should be added as part of this project. 
+The main goal is to track empty containers/sections in the store to enable prediction of how many additional lots can be added to the cabinets.
+
+<img width="409" height="347" alt="image" src="https://github.com/user-attachments/assets/bd0296f8-12a2-4fcd-9133-55f8546f337b" />
+
+### Container representation
+
+- Containers are displayed as rectangles.
+- Aspect ratio: 3:1 (length : width).
+- All container types have the same dimensions.
+- Label: Each container has a label underneath, e.g., #1001, #1023, #9999.
+- Color:
+  - Full green for fully empty sections.
+  - Partially green for px12 containers with 1 or 2 empty sections.
+- Spacing: Containers are separated by a small margin for readability.
+
+### Case group representation
+
+- Case group should be shown as a flexible grid
+- Maximum grid dimensions depend on neseted container types:
+  - PX12 : 12 columns x 9 rows
+  - PX6 : 6 x 9
+  - PX4 : 6 x 6
+  - PX2 : 6 x 3
+  
+### Cabinet representation
+
+- Each cabinet is displayed as a tab.
+- Clicking a tab shows the Case groups/Containers within that cabinet.
