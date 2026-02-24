@@ -251,11 +251,11 @@
   // ── Colour class for a container ────────────────────────────
   function colorClass(container) {
     const { emptySections, totalSections } = container;
+    // Fully empty container
     if (emptySections === totalSections) return "fully-empty";
     // Partially empty: only flagged for PX12 with 1–2 free sections
     if (totalSections === 12 && emptySections >= 1 && emptySections <= 2) return "partially-empty";
-    // Other partially-empty containers (non-PX12) – also show proportional fill
-    if (emptySections > 0) return "partially-empty";
+    // All other states: no special colour class
     return "";
   }
 
