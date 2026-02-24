@@ -148,7 +148,7 @@
   </div>
   <div class="legend-item">
     <div class="legend-swatch swatch-partial"></div>
-    Partially empty (PX12: 1–2 free sections)
+    Partially empty (any free sections)
   </div>
   <div class="legend-item">
     <div class="legend-swatch swatch-full"></div>
@@ -252,9 +252,6 @@
   function colorClass(container) {
     const { emptySections, totalSections } = container;
     if (emptySections === totalSections) return "fully-empty";
-    // Partially empty: only flagged for PX12 with 1–2 free sections
-    if (totalSections === 12 && emptySections >= 1 && emptySections <= 2) return "partially-empty";
-    // Other partially-empty containers (non-PX12) – also show proportional fill
     if (emptySections > 0) return "partially-empty";
     return "";
   }
