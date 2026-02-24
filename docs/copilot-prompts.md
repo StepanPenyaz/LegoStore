@@ -44,3 +44,14 @@
 **Context:** `legostore/backend/LegoStore.sln`
 
 **Outcome:** Created `LegoStore.sln` using `dotnet new sln -f sln` and added all three projects (`LegoStore.Domain`, `LegoStore.Services`, `LegoStore.Tests`) via `dotnet sln add`. The solution file uses Visual Studio format version 12.00 and builds successfully with `dotnet build`.
+
+---
+
+## [2026-02-24] Add REST API layer and React+Redux frontend
+
+**Prompt:**
+> Extend the existing solution: add REST API, React+Redux UI, Interfaces/Enums folder structure, Update Storage State button, section click interaction, database config, and README setup instructions.
+
+**Context:** `legostore/backend/Api/`, `legostore/Frontend/`, `README.md`
+
+**Outcome:** Created `LegoStore.Api` ASP.NET Core Web API project (net10.0) with `StorageController` exposing `GET /api/storage` and `POST /api/storage/update-state`. Added Swagger/OpenAPI, CORS for Vite dev server, EF Core + SQL Server DI wiring, and `appsettings.json` with connection string and incoming-orders path. Moved service interfaces to `services/Interfaces/` folder; renamed `domain/enums/` → `domain/Enums/` and `domain/extensions/` → `domain/Extensions/`. Created React+Redux Vite app in `legostore/Frontend/` with TypeScript, Redux Toolkit, `src/Interfaces/`, `src/Enums/`, `src/Store/`, `src/Components/`, and `src/Api/`. Components: StorageViewer (tabs, header, Update button), CabinetPanel, CaseGroupPanel, ContainerCell, SectionCell (clickable, marks full locally). Updated `README.md` with DB setup and IIS/local run instructions.

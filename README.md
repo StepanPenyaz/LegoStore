@@ -228,3 +228,111 @@ N Cabinets
 Where **N** is configurable and depends on the shop size.
 
 ---
+
+## Getting Started
+
+### Prerequisites
+
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- [SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or SQL Server LocalDB (included with Visual Studio)
+- [Node.js 18+](https://nodejs.org/) (for the React frontend)
+- (Optional) [IIS or IIS Express](https://www.iis.net/) for hosting the API
+
+---
+
+### 1. Database Setup
+
+The project uses **SQL Server Express / LocalDB** with EF Core migrations.
+
+#### a) Using LocalDB (recommended for development)
+
+The default connection string in `legostore/backend/Api/appsettings.json` targets LocalDB:
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=LegoStore;Trusted_Connection=True;"
+}
+```
+
+No additional SQL Server installation is needed if you have Visual Studio 2022 or the LocalDB standalone installer.
+
+#### b) Using SQL Server Express
+
+Update the connection string in `appsettings.json`:
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=.\\SQLEXPRESS;Database=LegoStore;Trusted_Connection=True;"
+}
+```
+
+#### c) Apply EF Core Migrations
+
+Open a terminal in `legostore/backend/` and run:
+
+```bash
+dotnet ef database update --project infrastructure --startup-project Api
+```
+
+This creates the **LegoStore** database with all required tables.
+
+#### d) Seed Initial Data (optional)
+
+You can use the API's `GET /api/storage` to verify the DB is ready. To pre-populate storage data, either write a seed script or use the `SaveAsync` method via a one-time console app.
+
+---
+
+### 2. Running the Backend API Locally
+
+#### Using `dotnet run`
+
+```bash
+cd legostore/backend/Api
+dotnet run
+```
+
+The API will be available at `http://localhost:5000` (or `https://localhost:5001`).  
+Swagger UI: `http://localhost:5000/swagger`
+
+#### Using IIS Express (Visual Studio)
+
+1. Open `legostore/backend/LegoStore.sln` in Visual Studio.
+2. Set **LegoStore.Api** as the startup project.
+3. Press **F5** or click **IIS Express** in the toolbar.
+4. Visual Studio will launch IIS Express and open the browser.
+
+To configure the IIS Express port, edit `legostore/backend/Api/Properties/launchSettings.json`.
+
+---
+
+### 3. Running the React Frontend Locally
+
+```bash
+cd legostore/Frontend
+npm install
+npm run dev
+```
+
+The frontend runs at `http://localhost:5173` and proxies `/api` requests to `http://localhost:5000` (the backend API).
+
+---
+
+### 4. Incoming Orders Path
+
+The **Update Storage State** button reads `.xml` files from:
+
+```
+C:\Lego\Bricklink\Incoming orders
+```
+
+You can override this path in `appsettings.json`:
+
+```json
+"Storage": {
+  "IncomingOrdersPath": "C:\\Lego\\Bricklink\\Incoming orders"
+}
+```
+
+Create the folder and place exported BrickStore `.bsx` (XML) files there before clicking the button.
+
+---
