@@ -1,0 +1,191 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #f4f4f4;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+header {
+  background: #1a1a2e;
+  color: #fff;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+header .logo { font-size: 1.6rem; }
+header h1   { font-size: 1.2rem; font-weight: 600; letter-spacing: 0.03em; flex: 1; }
+.header-actions { margin-left: auto; }
+
+/* ── Update button ───────────────────────────────────────── */
+.btn-update {
+  background: #e94560;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-update:hover:not(:disabled) { background: #c73652; }
+.btn-update:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ── Notification ────────────────────────────────────────── */
+.notification {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 24px;
+  font-size: 0.85rem;
+  gap: 10px;
+}
+.notification-success { background: #e8f5e9; color: #2e7d32; border-bottom: 1px solid #a5d6a7; }
+.notification-error   { background: #fdecea; color: #b71c1c; border-bottom: 1px solid #ef9a9a; }
+.notification-close {
+  background: none; border: none; cursor: pointer; font-size: 1rem;
+  color: inherit; padding: 0 4px;
+}
+
+/* ── Legend ──────────────────────────────────────────────── */
+.legend {
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 0.78rem;
+  color: #555;
+  flex-wrap: wrap;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-swatch {
+  width: 28px; height: 12px;
+  border-radius: 2px;
+  border: 1px solid #bbb;
+}
+.swatch-empty         { background: #43a047; border-color: #2e7d32; }
+.swatch-partial       {
+  background: linear-gradient(to right, #43a047 40%, #ddd 40%);
+  border-color: #9e9e9e;
+}
+.swatch-full          { background: #ddd; border-color: #bbb; }
+.swatch-section-empty { background: rgba(67, 160, 71, 0.35); border-color: #2e7d32; }
+
+/* ── Cabinet tabs ────────────────────────────────────────── */
+.tabs-bar {
+  background: #16213e;
+  display: flex;
+  padding: 0 16px;
+  gap: 2px;
+  overflow-x: auto;
+}
+.tab-btn {
+  padding: 10px 22px;
+  border: none;
+  background: transparent;
+  color: #9aa;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 500;
+  border-bottom: 3px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.tab-btn:hover  { color: #fff; }
+.tab-btn.active { color: #fff; border-bottom-color: #e94560; }
+
+/* ── Cabinet panel ───────────────────────────────────────── */
+.cabinet-panel { display: none; padding: 24px; }
+.cabinet-panel.active { display: block; }
+
+/* ── Case group ──────────────────────────────────────────── */
+.case-group { margin-bottom: 32px; }
+.case-group-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888;
+  margin-bottom: 10px;
+}
+.case-group-grid {
+  display: grid;
+  gap: 6px;
+  width: fit-content;
+}
+
+/* ── Container cell ──────────────────────────────────────── */
+.container-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+/* 3 : 1 aspect ratio → 90 × 30 px */
+.container-rect {
+  width: 90px;
+  height: 30px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  background: #ddd;
+  position: relative;
+  overflow: hidden;
+}
+
+.container-rect.fully-empty {
+  background: #43a047;
+  border-color: #2e7d32;
+}
+
+.container-rect.partially-empty .fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: #43a047;
+}
+
+.container-label {
+  font-size: 10px;
+  color: #999;
+  line-height: 1;
+}
+
+/* ── Sections overlay inside container rect ──────────────── */
+.sections-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.section-cell {
+  flex: 1;
+  height: 100%;
+  cursor: pointer;
+  transition: background 0.1s;
+  border-right: 1px solid rgba(255,255,255,0.2);
+}
+.section-cell:last-child { border-right: none; }
+
+.section-cell.section-empty {
+  background: rgba(67, 160, 71, 0.35);
+}
+.section-cell.section-empty:hover {
+  background: rgba(67, 160, 71, 0.6);
+}
+.section-cell.section-full {
+  background: transparent;
+}
+
+/* ── Loading message ─────────────────────────────────────── */
+.loading-msg {
+  padding: 40px 24px;
+  text-align: center;
+  color: #888;
+  font-size: 0.95rem;
+}
