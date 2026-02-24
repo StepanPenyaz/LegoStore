@@ -1,5 +1,7 @@
 # LegoStore
+
 Tool set for a better BrickLink store experience.
+
 # 🧱 BrickLink Storage Automation
 
 ## 📑 Table of Contents
@@ -12,6 +14,14 @@ Tool set for a better BrickLink store experience.
     - [Case group representation](#case-group-representation)
     - [Cabinet representation](#cabinet-representation)
  
+  - [Storage Domain Models](#storage-domain-models)
+    - [Sections](#sections)
+    - [Container Types](#container-types)
+    - [Cases](#cases)
+    - [Case Groups](#case-groups)
+    - [Cabinets](#cabinets)
+    - [Store Storage](#store-storage)
+
 ---
 
 ## Problem Statement
@@ -30,7 +40,7 @@ However, updating the physical storage state based on this data is currently a m
 2. The order is imported into BrickStore as a `.bsx` (XML) file.
 3. The order is physically picked from storage.
 4. After picking is completed, the processed file is saved locally.
-5. Empty containers must updated manually.
+5. Empty containers must be updated manually.
 
 ---
 
@@ -98,3 +108,123 @@ The main goal is to track empty containers/sections in the store to enable predi
 
 - Each cabinet is displayed as a tab.
 - Clicking a tab shows the Case groups/Containers within that cabinet.
+# Storage Domain Models
+
+## Overview
+
+The storage system represents the physical organization of LEGO parts used in the BrickLink store.
+
+It models the real warehouse structure:
+
+```
+Store → Cabinets → Groups → Cases → Containers → Sections
+```
+
+Each level reflects real physical constraints and capacity rules.
+
+---
+
+### Sections
+
+A **Section** is the smallest storage unit.
+
+**Properties**
+
+* Holds exactly 1 **LotId** + **Quantity**
+* Can be empty or occupied
+
+---
+
+### Container Types
+
+Containers store LEGO parts.
+Each container belongs to a **Container Type** which defines its section capacity.
+
+**Types**
+
+* **PX12** — Has 3 sections
+* **PX6** — Has 1 section
+* **PX4** — Has 1 section
+* **PX2** — Has 1 section
+
+---
+
+### Cases
+
+Containers are mounted inside **Cases**.
+
+**Rules**
+
+* All cases have identical physical size
+* Capacity depends on container type
+
+| Container Type | Containers per Case |
+| -------------- | ------------------- |
+| PX12           | 12                  |
+| PX6            | 6                   |
+| PX4            | 4                   |
+| PX2            | 2                   |
+
+A case can store **only one container type**.
+
+---
+
+### Case Groups
+
+Cases are assembled into **Groups**.
+
+**Group Size**
+
+```
+3 × 3 Cases Grid
+```
+
+Each group contains:
+
+```
+9 Cases
+```
+
+Example layout:
+
+```
+[ C ][ C ][ C ]
+[ C ][ C ][ C ]
+[ C ][ C ][ C ]
+```
+
+---
+
+### Cabinets
+
+Groups are placed into **Cabinets**.
+
+**Capacity**
+
+```
+1 Cabinet = 4 Groups
+```
+
+Example:
+
+```
+Cabinet
+ ├── Group A
+ ├── Group B
+ ├── Group C
+ └── Group D
+```
+
+---
+
+### Store Storage
+
+The full warehouse consists of:
+
+```
+N Cabinets
+```
+
+Where **N** is configurable and depends on the shop size.
+
+---
