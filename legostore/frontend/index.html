@@ -318,9 +318,11 @@
       container.insertAdjacentHTML("beforeend", renderCabinet(cab));
     });
 
-    // Show first panel
-    const first = document.getElementById("panel-" + storeData.cabinets[0].id);
-    if (first) first.classList.add("active");
+    // Show first panel (only if at least one cabinet exists)
+    if (storeData.cabinets.length > 0) {
+      const first = document.getElementById("panel-" + storeData.cabinets[0].id);
+      if (first) first.classList.add("active");
+    }
   })();
 </script>
 </body>
