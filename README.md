@@ -67,7 +67,7 @@ An automated system that:
 
 ---
 
-# Storage UI
+## Storage UI
 
 A simple UI representation should be added as part of this project. 
 The main goal is to track empty containers/sections in the store to enable prediction of how many additional lots can be added to the cabinets.
