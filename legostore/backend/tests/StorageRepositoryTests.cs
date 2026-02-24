@@ -89,4 +89,74 @@ public class StorageRepositoryTests
         // Only one storage record should exist
         Assert.Equal(1, await db.Storages.CountAsync());
     }
+
+    [Fact]
+    public async Task SubtractLotFromContainerAsync_DeductsQuantity()
+    {
+        await using var db = CreateInMemoryContext();
+        var repo    = new StorageRepository(db);
+        var storage = BuildStorage();
+        storage.Cabinets[0].Groups[0].Cases[0].Containers[0].Sections[0].Assign("LOT-001", 10);
+        await repo.SaveAsync(storage);
+
+        var container = db.Containers.First();
+        await repo.SubtractLotFromContainerAsync(container.Id, "LOT-001", 4);
+
+        var section = db.Sections.First(s => s.LotId == "LOT-001");
+        Assert.Equal(6, section.Quantity);
+    }
+
+    [Fact]
+    public async Task SubtractLotFromContainerAsync_ClearsSection_WhenQuantityReachesZero()
+    {
+        await using var db = CreateInMemoryContext();
+        var repo    = new StorageRepository(db);
+        var storage = BuildStorage();
+        storage.Cabinets[0].Groups[0].Cases[0].Containers[0].Sections[0].Assign("LOT-001", 5);
+        await repo.SaveAsync(storage);
+
+        var container = db.Containers.First();
+        await repo.SubtractLotFromContainerAsync(container.Id, "LOT-001", 5);
+
+        var section = db.Sections.First(s => s.ContainerId == container.Id);
+        Assert.Null(section.LotId);
+        Assert.Equal(0, section.Quantity);
+    }
+
+    [Fact]
+    public async Task SubtractLotFromContainerAsync_ThrowsKeyNotFound_WhenContainerMissing()
+    {
+        await using var db = CreateInMemoryContext();
+        var repo = new StorageRepository(db);
+
+        await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+            repo.SubtractLotFromContainerAsync(9999, "LOT-001", 1));
+    }
+
+    [Fact]
+    public async Task SubtractLotFromContainerAsync_ThrowsKeyNotFound_WhenLotNotInContainer()
+    {
+        await using var db = CreateInMemoryContext();
+        var repo    = new StorageRepository(db);
+        var storage = BuildStorage();
+        await repo.SaveAsync(storage);
+
+        var container = db.Containers.First();
+        await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+            repo.SubtractLotFromContainerAsync(container.Id, "NONEXISTENT", 1));
+    }
+
+    [Fact]
+    public async Task SubtractLotFromContainerAsync_ThrowsInvalidOperation_WhenQuantityExceeds()
+    {
+        await using var db = CreateInMemoryContext();
+        var repo    = new StorageRepository(db);
+        var storage = BuildStorage();
+        storage.Cabinets[0].Groups[0].Cases[0].Containers[0].Sections[0].Assign("LOT-001", 3);
+        await repo.SaveAsync(storage);
+
+        var container = db.Containers.First();
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            repo.SubtractLotFromContainerAsync(container.Id, "LOT-001", 10));
+    }
 }

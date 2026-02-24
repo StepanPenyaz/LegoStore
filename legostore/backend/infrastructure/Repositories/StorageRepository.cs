@@ -43,7 +43,38 @@ public class StorageRepository : IStorageRepository
         await _db.SaveChangesAsync(ct);
     }
 
-    // ── Mapping: domain → entity ─────────────────────────────────────────────
+    /// <inheritdoc/>
+    public async Task SubtractLotFromContainerAsync(
+        int containerNumber,
+        string lotId,
+        int quantity,
+        CancellationToken ct = default)
+    {
+        if (string.IsNullOrWhiteSpace(lotId))
+            throw new ArgumentException("LotId cannot be null or whitespace.", nameof(lotId));
+        if (quantity <= 0)
+            throw new ArgumentOutOfRangeException(nameof(quantity), "Quantity must be positive.");
+
+        var container = await _db.Containers
+            .Include(c => c.Sections)
+            .FirstOrDefaultAsync(c => c.Id == containerNumber, ct)
+            ?? throw new KeyNotFoundException($"Container {containerNumber} not found.");
+
+        var section = container.Sections.FirstOrDefault(s => s.LotId == lotId)
+            ?? throw new KeyNotFoundException($"Lot '{lotId}' not found in container {containerNumber}.");
+
+        if (quantity > section.Quantity)
+            throw new InvalidOperationException(
+                $"Cannot subtract {quantity} from section with quantity {section.Quantity}.");
+
+        section.Quantity -= quantity;
+        if (section.Quantity == 0)
+            section.LotId = null;
+
+        await _db.SaveChangesAsync(ct);
+    }
+
+
 
     private static StorageEntity MapToEntity(StoreStorage storage) =>
         new()

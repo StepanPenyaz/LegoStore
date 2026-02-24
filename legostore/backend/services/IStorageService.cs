@@ -5,7 +5,7 @@ namespace LegoStore.Services;
 /// <summary>
 /// Represents a lot extracted from a BrickStore .bsx file.
 /// </summary>
-public record PickedLot(string LotId, int Quantity);
+public record PickedLot(string LotId, int Quantity, ContainerInfo? ContainerInfo = null);
 
 /// <summary>
 /// Core storage service interface for applying picking results to the warehouse model.
