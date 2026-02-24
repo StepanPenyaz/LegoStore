@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/domain/">
+    <Project Path="domain/LegoStore.Domain.csproj" />
+  </Folder>
+  <Folder Name="/services/">
+    <Project Path="services/LegoStore.Services.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LegoStore.Tests.csproj" />
+  </Folder>
+</Solution>
