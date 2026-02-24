@@ -5,6 +5,9 @@
   <Folder Name="/services/">
     <Project Path="services/LegoStore.Services.csproj" />
   </Folder>
+  <Folder Name="/infrastructure/">
+    <Project Path="infrastructure/LegoStore.Infrastructure.csproj" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/LegoStore.Tests.csproj" />
   </Folder>
