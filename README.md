@@ -82,7 +82,7 @@ The main goal is to track empty containers/sections in the store to enable predi
 - Label: Each container has a label underneath, e.g., #1001, #1023, #9999.
 - Color:
   - Full green for fully empty sections.
-  - Partially green for px12 containers with 1 or 2 empty sections.
+  - Partially green (proportional fill) for any container with at least one free section.
 - Spacing: Containers are separated by a small margin for readability.
 
 ### Case group representation
